@@ -1,27 +1,52 @@
 import React, { useState } from "react";
 import "./App.css";
+import PostList from "./components/PostList";
 
 function App() {
-  const [result, setResult] = useState(10);
-  const [value, setvalue] = useState("");
+  const [posts, setPosts] = useState([
+    { id: 1, title: "JavaScript", body: "Description" },
+    { id: 2, title: "HTML", body: "Description" },
+    { id: 3, title: "CSS", body: "Description" },
+  ]);
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
 
-  function increment() {
-    setResult(result + 1);
-    console.log(setResult);
+  function addNewPost(e) {
+    e.preventDefault();
+    const newPost = {
+      id: Date.now(),
+      title,
+      body
+      
+    };
+    console.log(newPost);
+    setPosts([...posts, newPost]);
+    setBody("")
+    setTitle("")
   }
-  function decrement() {
-    setResult(result - 1);
-  }
+
   return (
     <div className="App">
-      <h1>{result}</h1>
-      <h1>{value}</h1>
-      <br></br>
-      <input 
-      value={value}
-      onChange={(event) => setvalue(event.target.value)} />
-      <button onClick={increment}>Increment</button>
-      <button onClick={decrement}>Decrement</button>
+      <form>
+        <input
+          type="text"
+          placeholder="Name"
+          id="name"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          autoComplete="off"
+        />
+        <input
+          type="text"
+          placeholder="Description"
+          id="body"
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
+          autoComplete="off"
+        />
+        <button onClick={addNewPost}>Create post</button>
+      </form>{" "}
+      <PostList posts={posts} title="List of programming languages" />
     </div>
   );
 }
